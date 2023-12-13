@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="markeroutput"></p>
+    <script>
+
+        class ExtendedDate extends Date{
+            constructor(year, month, day) {
+                super(year, month, day);
+            }
+            FutureOrPast(datecmp) {
+        if (this.getFullYear() > datecmp.getFullYear()) {
+            return true;
+        } else if (this.getFullYear() < datecmp.getFullYear()) {
+            return false;
+        } else if (this.getFullYear() === datecmp.getFullYear()) {
+            if (this.getMonth() > datecmp.getMonth()) {
+                return true;
+            } else if (this.getMonth() < datecmp.getMonth()) {
+                return false;
+            } else {
+                if (this.getDate() >= datecmp.getDate()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+            isLeapYear()
+            {
+                return this.getFullYear() % 4 === 0;
+            }
+            nextDay() {
+                const newDate = new ExtendedDate(this.getFullYear(), this.getMonth(), this.getDate() + 1);
+                return newDate;
+            }
+        }
+
+
+        class Marker{
+            color;
+            leftink;
+            constructor(color,leftink)
+            {
+                if(leftink>100)
+                  leftink=100;
+                else if(leftink<0)
+                {
+                    leftink=0;
+                }
+                this.color=color;
+                this.leftink=leftink;
+            }
+            write(str) {
+           let newstr = '';
+           for (let index = 0; index < str.length; index++) {
+        if (str[index] !== ' ') {
+            this.leftink -= 0.5;
+        }
+
+        if (this.leftink >= 0.5) {
+            newstr += str[index];
+        }
+    }
+
+    const outputmarker = document.getElementById('markeroutput');
+    outputmarker.style.color = this.color;
+    outputmarker.textContent = newstr;
+}
+
+
+        }
+        class ExtendedMarker extends Marker{
+            constructor(color,leftink)
+            {
+                super(color,leftink);
+            }
+            fillTheMarker(ink)
+            {
+                if(ink>100)
+                 ink=100;
+                if(ink<0)
+                  ink=0;
+                this.leftink+=ink;
+            }
+        }
+
+
+
+        let testdate=new ExtendedDate(2004,11,25);
+        let datecmp=new ExtendedDate(21,12,2007);
+        document.write(testdate.toLocaleString(),"<br>");
+        document.write(testdate.FutureOrPast(datecmp),"<br>");
+        document.write(testdate.isLeapYear(),"<br>");
+        datecmp = testdate.nextDay();
+        document.write(datecmp.toLocaleString(),"<br>");
+
+
+        let newmarker=new ExtendedMarker("blue",15);
+        newmarker.write("Добрый день.Сейчас происходит проверка маркера!!!");
+        newmarker.fillTheMarker(60);
+        newmarker.write("Добрый день.Сейчас происходит проверка маркера!!!");
+
+    </script>
+</body>
+</html>
